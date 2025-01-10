@@ -93,3 +93,21 @@ kubectl rollout status deployment/my-deployment
 
   ![image](https://github.com/user-attachments/assets/6aae2f76-666b-4ccf-b15d-d40cca57c7af)
 
+
+## ConfigMap
+
+>Crie um ConfigMap chamado "app-config" com uma variável de configuração personalizada. Monte o ConfigMap em um pod e verifique se o valor foi aplicado corretamente.
+
+- Inicia com a criação de um arquivo no editor nano:
+```
+  nano app-config.yaml
+```
+- Adicione o script:
+  ```
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+data:
+  APP_MESSAGE: "Hello from ConfigMap"
+  ```
