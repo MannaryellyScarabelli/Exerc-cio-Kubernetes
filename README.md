@@ -32,5 +32,7 @@ spec:
 ```
 kubectl get deployments
 ```
+
 A saída será como na imagem abaixo
+
   ![image](https://github.com/user-attachments/assets/df9933e5-5a41-4545-b3c6-a807add2b564)
