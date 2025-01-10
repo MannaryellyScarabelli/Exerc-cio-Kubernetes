@@ -103,11 +103,3 @@ kubectl rollout status deployment/my-deployment
   nano app-config.yaml
 ```
 - Adicione o script:
-  ```
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: app-config
-data:
-  APP_MESSAGE: "Hello from ConfigMap"
-  ```
