@@ -103,3 +103,42 @@ kubectl rollout status deployment/my-deployment
   nano app-config.yaml
 ```
 - Adicione o script:
+```
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+data:
+  APP_MESSAGE: "Hello from ConfigMap"
+```
+- Implementação do cluster use:
+```
+kubectl apply -f app-config.yaml
+```
+- Verifique a criação do ConfigMap:
+```
+  kubectl get configmap
+```
+- Crie um pod para o ConfigMap:
+```
+nano pod-with-configmap.yaml
+```
+- Use o script:
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: configmap-pod
+spec:
+  containers:
+  - name: app-container
+    image: busybox
+    command: ["/bin/sh", "-c", "env && sleep 3600"]
+    env:
+    - name: APP_MESSAGE
+      valueFrom:
+        configMapKeyRef:
+          name: app-config
+          key: APP_MESSAGE
+```
+
