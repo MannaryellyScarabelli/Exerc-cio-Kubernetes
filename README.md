@@ -159,3 +159,10 @@ kubectl exec -it configmap-pod -- sh
 ```
 
 ![Captura de tela 2025-01-10 221404](https://github.com/user-attachments/assets/70d50341-7d10-46da-b02f-3cb5886646b3)
+
+
+## Secret
+
+>Crie um Secret chamado "app-secret" contendo informações sensíveis. Injete o Secret como uma variável de ambiente em um pod e teste se está acessível.
+
+
