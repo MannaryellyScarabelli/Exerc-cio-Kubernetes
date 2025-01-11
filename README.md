@@ -149,3 +149,13 @@ spec:
 ```
 kubectl get pods
 ```
+- Agora verifique o valor do ConfigMap:
+```
+kubectl exec -it configmap-pod -- sh
+```
+- Use o comando abaixo dentro do pod acessado:
+```
+  env | grep APP_MESSAGE
+```
+
+![Captura de tela 2025-01-10 221404](https://github.com/user-attachments/assets/70d50341-7d10-46da-b02f-3cb5886646b3)
