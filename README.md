@@ -141,4 +141,11 @@ spec:
           name: app-config
           key: APP_MESSAGE
 ```
-
+- Criação do cluster:
+```
+  kubectl apply -f pod-with-configmap.yaml
+```
+- Verfique a criação:
+```
+kubectl get pods
+```
