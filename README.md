@@ -321,4 +321,21 @@ spec:
  ```
  kubectl apply -f pod-with-pvc.yaml
  ```
+ - Verificação da criação:
+ ```
+ kubectl get pods
+ ```
+- Para testagem da persistência acesse o pod:
+```
+kubectl exec -it pod-with-volume -- sh
+```
+- Criação do arquivo no volume montado:
+```
+echo "Hello, PersistentVolume!" > /data/test.txt
+```
+- Verifique a saída usando o comando:
+```
+cat /data/test.txt
+```
 
+![image](https://github.com/user-attachments/assets/8e16a95e-c806-4193-b9f9-be63f078a360)
