@@ -1,4 +1,4 @@
-# Exercícios Kubernetes - CompassUOL
+# Exercícios - CompassUOL
 
 Esta lista de exercício foi realizada em um terminal linux - Ubuntu, onde supriu todas as necessidades.
 
@@ -339,3 +339,92 @@ cat /data/test.txt
 ```
 
 ![image](https://github.com/user-attachments/assets/8e16a95e-c806-4193-b9f9-be63f078a360)
+
+
+## Cluster IP
+
+>Crie um serviço do tipo ClusterIP para um Deployment chamado "backend" e teste a conectividade interna entre pods usando o nome do serviço.
+
+- Para iniciar é necessário criar um deplyment:
+```
+  nano backend-deployment.yaml
+```
+- Adicione o script:
+```
+  apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+      - name: backend-container
+        image: nginx
+        ports:
+        - containerPort: 80
+```
+- Aplicação no cluster:
+```
+  kubectl apply -f backend-deployment.yaml
+```
+- Verificação da criação:
+```
+  kubectl get pods
+```
+- Criação de um arquivo cluster IP:
+```
+  nano backend-service.yaml
+```
+- Adicione o script:
+```
+  apiVersion: v1
+kind: Service
+metadata:
+  name: backend-service
+spec:
+  selector:
+    app: backend
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+  type: ClusterIP
+```
+- Aplicação do serviço no cluster:
+```
+  kubectl apply -f backend-service.yaml
+```
+- Verifique a criação do serviço:
+```
+  kubectl get svc
+```
+
+![image](https://github.com/user-attachments/assets/3797ab57-1ca9-4971-86be-ceb670224375)
+
+
+- Para testar a conectividade crie primeiro um pod:
+```
+kubectl run test-pod --image=busybox --restart=Never --command -- sleep 3600
+```
+- Verifique a criação:
+```
+  kubectl get pods
+```
+- Acesse o pod:
+```
+  kubectl exec -it test-pod -- sh
+```
+- Dentro do pod teste a conectividade com o comando:
+```
+  wget -qO- backend-service
+```
+
+![image](https://github.com/user-attachments/assets/f9b8cff9-f683-4059-bd2b-f616043a9ff7)
