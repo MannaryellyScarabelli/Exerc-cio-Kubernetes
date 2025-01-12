@@ -233,3 +233,92 @@ spec:
 ```
 
 ![image](https://github.com/user-attachments/assets/eb0f1bc9-b94a-4574-acd3-e0f953be3d6f)
+
+
+## Persistent Volume
+
+>Configure um PersistentVolume de 1Gi de armazenamento local e vincule-o a um PersistentVolumeClaim. Monte o volume em um pod e salve arquivos para verificar a persistência.
+
+- Para iniciar é preciso criar um aquivo persistentvolume:
+```
+  nano pv.yaml
+```
+- Adicione o seguinte script:
+```
+  apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: local-pv
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/mnt/data"
+```
+- Aplicação no cluster:
+```
+  kubectl apply -f pv.yaml
+```
+- Verificação da criação:
+```
+  kubectl get pv
+```
+- Criação de um arquivo persistentvolumeclaim:
+```
+  nano pvc.yaml
+```
+- Adicione o script:
+```
+  apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: local-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+```
+- Aplicação no cluster:
+```
+  kubectl apply -f pvc.yaml
+```
+- Verificação da implementação do PVC ao PV:
+```
+  kubectl get pvc
+```
+Em STATUS deve aparecer  `Bound` como na imagem abaixo:
+
+![image](https://github.com/user-attachments/assets/a2b44608-65db-4402-a0c5-bba86f4036e8)
+
+- Criação de um arquivo para utilização de volume:
+```
+  nano pod-with-pvc.yaml
+```
+- Adicione o script:
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-with-volume
+spec:
+  containers:
+  - name: app-container
+    image: busybox
+    command: ["/bin/sh", "-c", "while true; do sleep 3600; done"]
+    volumeMounts:
+    - name: local-storage
+      mountPath: "/data"
+  volumes:
+  - name: local-storage
+    persistentVolumeClaim:
+      claimName: local-pvc
+  ```
+- Aplicação cluster:
+ ```
+ kubectl apply -f pod-with-pvc.yaml
+ ```
+
