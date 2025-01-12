@@ -428,3 +428,60 @@ kubectl run test-pod --image=busybox --restart=Never --command -- sleep 3600
 ```
 
 ![image](https://github.com/user-attachments/assets/f9b8cff9-f683-4059-bd2b-f616043a9ff7)
+
+
+## Job
+
+>Implante um Job chamado "batch-job" que execute um comando simples e termine. Verifique os logs do Job para confirmar sua execução.
+
+- Inicialmente é realizado a criação de um arquivo:
+```
+  nano batch-job.yaml
+```
+- Adicione o script:
+```
+  apiVersion: batch/v1
+kind: Job
+metadata:
+  name: batch-job
+spec:
+  template:
+    metadata:
+      name: batch-job
+    spec:
+      containers:
+      - name: batch-job-container
+        image: busybox
+        command: ["sh", "-c", "echo 'Hello from Kubernetes Job!' && sleep 5"]
+      restartPolicy: Never
+  backoffLimit: 4
+```
+- Aplicação cluster:
+```
+  kubectl apply -f batch-job.yaml
+```
+- Verifique o status:
+```
+  kubectl get jobs
+```
+
+![image](https://github.com/user-attachments/assets/c747463d-f942-48a3-941d-a8739fd12ed5)
+
+- Verificação da lista de pods gerados pelo Job:
+```
+  kubectl get pods
+```
+
+![image](https://github.com/user-attachments/assets/398cdbaa-bba1-4c2e-9c00-49a526e75f14)
+
+
+- Verificação dos logs:
+```
+kubectl logs <NOME_DO_POD>
+```
+
+![image](https://github.com/user-attachments/assets/493a55a5-bd40-490e-95f7-5cc4de86f927)
+
+
+
+  
