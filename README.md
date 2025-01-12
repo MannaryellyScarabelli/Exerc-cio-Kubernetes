@@ -165,4 +165,71 @@ kubectl exec -it configmap-pod -- sh
 
 >Crie um Secret chamado "app-secret" contendo informações sensíveis. Injete o Secret como uma variável de ambiente em um pod e teste se está acessível.
 
+- O primeiro passo para começar é realizar a criação de um arquivo, para isso utilize o comando:
+```
+nano app-secret.yaml
+```
+- Adicione o seguinete script no editor nano:
+```
+  apiVersion: v1
+kind: Secret
+metadata:
+  name: app-secret
+type: Opaque
+data:
+  DB_USERNAME: YWRtaW4=     # Base64 de "admin"
+  DB_PASSWORD: cGFzc3dvcmQ= # Base64 de "password"
+```
+- Para apçlicação cluster utilize:
+```
+  kubectl apply -f app-secret.yaml
+```
+- Verifique a criação do secret:
+```
+  kubectl get secrets
+```
+- Criação de um pod para agregar o secret, use o comando:
+```
+  nano pod-with-secret.yaml
+```
+- Adicione o script:
+```
+  apiVersion: v1
+kind: Pod
+metadata:
+  name: secret-pod
+spec:
+  containers:
+  - name: app-container
+    image: busybox
+    command: ["/bin/sh", "-c", "env && sleep 3600"]
+    env:
+    - name: DB_USERNAME
+      valueFrom:
+        secretKeyRef:
+          name: app-secret
+          key: DB_USERNAME
+    - name: DB_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: app-secret
+          key: DB_PASSWORD
+```
+- Aplicação do pod ao cluster com o comando:
+```
+  kubectl apply -f pod-with-secret.yaml
+```
+- Verificação da criação do pod:
+```
+  kubectl get pods
+```
+- Testagem da acessibilidade so secret:
+```
+  kubectl exec -it secret-pod -- sh
+```
+- Dentro do pod utilize o camndo:
+```
+  env | grep DB_
+```
 
+![image](https://github.com/user-attachments/assets/eb0f1bc9-b94a-4574-acd3-e0f953be3d6f)
