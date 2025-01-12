@@ -483,5 +483,81 @@ kubectl logs <NOME_DO_POD>
 ![image](https://github.com/user-attachments/assets/493a55a5-bd40-490e-95f7-5cc4de86f927)
 
 
+## Pod Autoescaler
+
+>Crie um Horizontal Pod Autoscaler para um Deployment chamado "hpa-deployment" e configure-o para escalar com base no uso de CPU. Aumente a carga e observe o escalonamento.
+
+- Para iniciar criaremos um arquivo deplyment:
+```
+nano hpa-deployment.yaml
+```
+- Adicione o script:
+```
+  apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hpa-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: hpa-app
+  template:
+    metadata:
+      labels:
+        app: hpa-app
+    spec:
+      containers:
+      - name: hpa-container
+        image: nginx
+        resources:
+          requests:
+            cpu: 200m
+          limits:
+            cpu: 500m
+  ```
+- Aplicação cluster:
+ ```
+  kubectl apply -f hpa-deployment.yaml
+ ```
+- Criação da implementação:
+ ```
+  kubectl autoscale deployment hpa-deployment --cpu-percent=50 --min=1 --max=10
+ ```
+- Verificação da criação:
+ ```
+  kubectl get hpa
+ ```
+
+![image](https://github.com/user-attachments/assets/e422ac8d-6319-4401-b49a-01f3b5548e6f)
+
+- Criação do pod para aumentar a carga:
+```
+  nano stress-test.yaml
+```
+- Adicione o script:
+```
+  apiVersion: v1
+kind: Pod
+metadata:
+  name: stress-test
+spec:
+  containers:
+  - name: stress
+    image: busybox
+    command: ["sh", "-c", "while true; do yes > /dev/null; done"]
+```
+- Aplicação cluster:
+```
+  kubectl apply -f stress-test.yaml
+```
+- Agora monitore o escalonamento com o seguinte comando:
+```
+  kubectl get hpa -w
+```
+
+![image](https://github.com/user-attachments/assets/9744d87e-33c2-4d48-b69a-ef69fe807deb)
+
+
 
   
