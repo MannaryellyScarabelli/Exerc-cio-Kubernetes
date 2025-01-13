@@ -3,7 +3,16 @@
 ![compassUOL](https://github.com/user-attachments/assets/fd730623-8fe6-42af-976c-5375f14e0b3a)
 
 
-Esta lista de exercício foi realizada em um terminal linux - Ubuntu, onde supriu todas as necessidades exigidas.
+## As atividade do Killercoda foram fealizadas conforme as instruções
+
+
+![Captura de tela 2025-01-10 112242](https://github.com/user-attachments/assets/abaa9fa6-867c-48a4-8752-028f36520a42)
+
+https://killercoda.com/kubernetes
+
+
+
+## Esta lista de exercício foi realizada em um terminal linux - Ubuntu, onde supriu todas as necessidades exigidas.
 
 
 ## My-pod
