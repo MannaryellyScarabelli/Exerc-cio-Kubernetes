@@ -559,5 +559,49 @@ spec:
 ![image](https://github.com/user-attachments/assets/9744d87e-33c2-4d48-b69a-ef69fe807deb)
 
 
+## NodePort
 
+>Crie um serviço do tipo NodePort para expor externamente um Deployment chamado "webapp". Acesse o serviço usando o endereço IP do Minikube e a porta atribuída.
+
+- Para iniciarmos a instalação do minikube acesse a documentação oficial:
   
+  https://minikube.sigs.k8s.io/docs/start/?arch=%2Flinux%2Fx86-64%2Fstable%2Fbinary+download
+
+- Crie um arquivo no editor nano:
+ ```
+    nano webapp-service.yaml
+  ```
+- Adicione o script:
+ ```
+  apiVersion: v1
+kind: Service
+metadata:
+  name: webapp-service
+spec:
+  type: NodePort
+  selector:
+    app: webapp
+  ports:
+    - protocol: TCP
+      port: 80        # Porta interna do serviço
+      targetPort: 8080 # Porta do contêiner no Deployment
+      nodePort: 30008  # Porta externa no nó (opcional, pode ser gerada automaticamente)
+ ```
+- Aplicação cluster:
+```
+  kubectl apply -f webapp-service.yaml
+```
+- Verificação da criação:
+```
+  kubectl get service webapp-service
+```
+- Acesso ao serviço utilizando o endereço IP e a porta 3008 atribuída:
+```
+  curl http://192.168.49.2:30008
+```
+
+![Captura de tela 2025-01-12 230640](https://github.com/user-attachments/assets/3257f203-a428-4ecf-977b-1c3de46ddec4)
+
+
+
+
