@@ -1,6 +1,9 @@
 # Exercícios - CompassUOL
 
-Esta lista de exercício foi realizada em um terminal linux - Ubuntu, onde supriu todas as necessidades.
+![compassUOL](https://github.com/user-attachments/assets/fd730623-8fe6-42af-976c-5375f14e0b3a)
+
+
+Esta lista de exercício foi realizada em um terminal linux - Ubuntu, onde supriu todas as necessidades exigidas.
 
 
 ## My-pod
