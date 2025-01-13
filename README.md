@@ -603,5 +603,52 @@ spec:
 ![Captura de tela 2025-01-12 230640](https://github.com/user-attachments/assets/3257f203-a428-4ecf-977b-1c3de46ddec4)
 
 
+## Restar-pod
 
+>Crie um pod chamado "restart-pod" com a política de reinício configurada como "OnFailure". Provoque uma falha no pod e observe seu comportamento.
+
+- Inicialmente crie um arquivo nano:
+```
+  nano restart-pod.yaml
+```
+- Adicione o script:
+```
+  apiVersion: v1
+kind: Pod
+metadata:
+  name: restart-pod
+spec:
+  restartPolicy: OnFailure
+  containers:
+  - name: fail-container
+    image: alpine
+    command: ["sh", "-c", "exit 1"]
+```
+- Aplicação cluster:
+```
+  kubectl apply -f restart-pod.yaml
+```
+- Verifique o estado:
+```
+  kubectl get pods
+```
+
+![image](https://github.com/user-attachments/assets/1ab343da-b2fc-4070-94ca-60e232f5bee7)
+
+- Observe o comportamento de reinicio:
+```
+  kubectl describe pod restart-pod
+```
+
+![Captura de tela 2025-01-13 121949](https://github.com/user-attachments/assets/592806c3-4de1-4abc-a4c4-e3096e112a89)
+
+
+Observe que em `Reason` consta `Error`, atestando um comportamento de falha.
+
+- Agora observe o numero de reinicialização do pod:
+```
+  kubectl get pod restart-pod -o wide
+```
+
+![Captura de tela 2025-01-13 122655](https://github.com/user-attachments/assets/8c389b5d-f2a8-4d02-b220-dcccaff33799)
 
