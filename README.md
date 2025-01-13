@@ -1,4 +1,4 @@
-# Exercícios - CompassUOL
+# Exercícios Kubernetes - CompassUOL
 
 ![compassUOL](https://github.com/user-attachments/assets/fd730623-8fe6-42af-976c-5375f14e0b3a)
 
